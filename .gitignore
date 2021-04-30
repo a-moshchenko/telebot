@@ -1,0 +1,4 @@
+.vscode
+media/*
+__pycache__
+screenshot_database.db
