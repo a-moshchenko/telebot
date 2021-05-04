@@ -5,8 +5,8 @@ from logging_seting import logger
 
 config = configparser.ConfigParser()
 config.read('config.ini')
-TOKEN = config.get("Telegram","TOKEN")
-CHROMADRIVER_PATH = config.get("Chromedriver","PATH")
+TOKEN = config.get("Telegram", "TOKEN")
+CHROMADRIVER_PATH = config.get("Chromedriver", "PATH")
 
 bot = Bot(TOKEN, parse_mode="HTML")
 storage = MemoryStorage()

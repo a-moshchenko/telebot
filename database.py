@@ -59,4 +59,5 @@ def check_db_exists() -> None:
         return
     _init_db()
 
+
 check_db_exists()

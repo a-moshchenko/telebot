@@ -63,7 +63,7 @@ async def send_image(msg: types.Message, name: str):  # отправка док�
 # сохраняем url и имя
 @dp.message_handler(state=SiteStates.write_name)
 async def save_name_and_url(msg: types.Message, state: FSMContext):
-    if msg.text  in [i['name'] for i in database.fetchall()]:
+    if msg.text in [i['name'] for i in database.fetchall()]:
         await msg.answer(f"Имя {msg.text} занято придумайте другое")
         await SiteStates.write_name.set()  # FSM.py
     else:
