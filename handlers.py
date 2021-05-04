@@ -1,3 +1,5 @@
+import os
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
@@ -18,6 +20,8 @@ status = None
 
 @dp.message_handler(commands=["start"])
 async def start_bot(msg: types.Message):
+    if not os.path.exists('./media'):
+        os.mkdir('./media')
     await msg.answer("Привет! Вас приветсвует SCREENSHOT_BOT. "
                      "Принцип моей работы прост -"
                      "Вы мне ссылку на сайт я Вам скриншот сайта",
