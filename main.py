@@ -4,7 +4,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from logging_seting import logger
 
 config = configparser.ConfigParser()
-config.read('config.ini') 
+config.read('config.ini')
 TOKEN = config.get("Telegram","TOKEN")
 CHROMADRIVER_PATH = config.get("Chromedriver","PATH")
 

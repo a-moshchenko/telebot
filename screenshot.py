@@ -20,8 +20,8 @@ class Browser:
         self.browser = webdriver.Chrome(executable_path=CHROMADRIVER_PATH,
                                         options=options)
         self.browser.set_window_size(1920, 1080)
-        logger.info('browser is created')    
-        
+        logger.info('browser is created')
+
     def scroll(self):  # прокручивает всю страницу, чтобы загрузить все элементы
         last_height = self.browser.execute_script("return document.body.scrollHeight")
 
@@ -44,5 +44,7 @@ class Browser:
         height = self.scroll()
         self.browser.set_window_size(1920, height)
         time.sleep(3)
+        logger.info('Browser get screenshot')
         self.browser.save_screenshot(f'./media/{self.name}.png')
+        logger.info('Browser quit')
         self.browser.quit()
