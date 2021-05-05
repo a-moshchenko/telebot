@@ -19,8 +19,10 @@ cursor = conn.cursor()
 
 
 def insert(values: Dict) -> None:
-    cursor.execute("INSERT INTO screenshot(name, url) "
-                   "VALUES(%s, %s);", (values['name'], values['url']))
+    cursor.execute(
+        "INSERT INTO screenshot(name, url, customer) "
+        f"VALUES('{values['name']}', '{values['url']}', '{values['user']}');"
+        )
     conn.commit()
 
 
@@ -29,10 +31,11 @@ def delete(row_name: str) -> None:
     conn.commit()
 
 
-def fetchall() -> List[Dict]:
+def fetchall(user: str) -> List[Dict]:
     columns = ['name', 'url']
     columns_joined = ", ".join(columns)
-    cursor.execute(f"SELECT {columns_joined} FROM screenshot")
+    cursor.execute(f"SELECT {columns_joined} FROM screenshot "
+                   f"WHERE customer = '{user}'")
     rows = cursor.fetchall()
     result = []
     for row in rows:

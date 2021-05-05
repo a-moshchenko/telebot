@@ -22,7 +22,7 @@ status = None
 async def start_bot(msg: types.Message):
     if not os.path.exists('./media'):
         os.mkdir('./media')
-    await msg.answer("Привет! Вас приветсвует SCREENSHOT_BOT. "
+    await msg.answer("Приветf! Вас приветсвует SCREENSHOT_BOT. "
                      "Принцип моей работы прост -"
                      "Вы мне ссылку на сайт я Вам скриншот сайта",
                      reply_markup=next_button)
@@ -63,7 +63,7 @@ async def send_image(msg: types.Message, name: str):  # отправка док�
 # сохраняем url и имя
 @dp.message_handler(state=SiteStates.write_name)
 async def save_name_and_url(msg: types.Message, state: FSMContext):
-    if msg.text in [i['name'] for i in database.fetchall()]:
+    if msg.text in [i['name'] for i in database.fetchall(msg.from_user.id)]:
         await msg.answer(f"Имя {msg.text} занято придумайте другое")
         await SiteStates.write_name.set()  # FSM.py
     else:
@@ -78,7 +78,8 @@ async def save_name_and_url(msg: types.Message, state: FSMContext):
                          reply_markup=ReplyKeyboardRemove())
         await msg.answer("Подождите делаем скриншот!")
         url, name = screenshot_detail['url'], screenshot_detail['name']
-        database.insert({'name': name, 'url': url})
+        user = msg.from_user.id
+        database.insert({'name': name, 'url': url, 'user': user})
         logger.info(msg.chat.id)
         browser = Browser(url, name)
         try:
@@ -96,7 +97,7 @@ async def save_name_and_url(msg: types.Message, state: FSMContext):
 @dp.message_handler(Text(equals="История скриншотов"))  # выбираем скриншоты
 async def history(msg: types.Message):
     global status
-    all_screenshot = database.fetchall()
+    all_screenshot = database.fetchall(msg.from_user.id)
     all_names = [i['name'] for i in all_screenshot]
     status = True
     await msg.answer("Выберите скриншоты которые хотите посмотреть:",
@@ -107,7 +108,7 @@ async def history(msg: types.Message):
 async def show(msg: types.Message):
     global status
     global show_screenshot
-    for name in show_screenshot:
+    for name in set(show_screenshot):
         await send_image(msg, name)
     await msg.answer("Выберите:",
                      reply_markup=next_button)
