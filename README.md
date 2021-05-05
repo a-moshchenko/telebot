@@ -5,6 +5,7 @@
 - Перейти в директорию проекта `cd telebot`
 
 - в файле config.ini прописать токен бота и путь к chromedriver(`https://chromedriver.chromium.org/`)
+  и прописать креды базы данных
 
 - установить зависимости `pip3 install -r requirements.txt`
 
