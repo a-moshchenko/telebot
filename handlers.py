@@ -110,6 +110,8 @@ async def show(msg: types.Message):
     global show_screenshot
     for name in set(show_screenshot):
         await send_image(msg, name)
+    show_screenshot = []
+    status = None
     await msg.answer("Выберите:",
                      reply_markup=next_button)
 
